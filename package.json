@@ -1,6 +1,6 @@
 {
   "name": "okhash",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Deterministic string-to-color generator built on OKLCH.",
   "keywords": [
     "color",
