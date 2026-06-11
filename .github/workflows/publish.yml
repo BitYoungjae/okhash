@@ -25,6 +25,10 @@ jobs:
           node-version: "22.22.1"
           registry-url: https://registry.npmjs.org
           cache: npm
+      - uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2.0.4
+        with:
+          deno-version: v2.x
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
       - run: npm install --global npm@11.16.0
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
