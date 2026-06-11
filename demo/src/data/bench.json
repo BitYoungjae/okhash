@@ -1,0 +1,7 @@
+{
+  "generatedBy": "node tools/measure-bench.mjs",
+  "note": "Default uncached hex() latency. Authoritative gate: bench/gate.mjs.",
+  "node": "v24.16.0",
+  "hexNsPerOp": 135.9,
+  "hexOpsPerSec": 7848815
+}

@@ -1,0 +1,6 @@
+okhash
+
+Copyright (c) 2026 okhash contributors
+
+This package includes Oklab conversion formulas and sRGB gamut routines derived
+from Bjorn Ottosson's MIT-licensed Oklab and gamut clipping reference code.

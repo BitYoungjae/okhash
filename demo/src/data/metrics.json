@@ -1,0 +1,118 @@
+{
+  "generatedBy": "node tools/measure-metrics.mjs",
+  "note": "Distribution/stability/size facts generated from the built package. Latency lives in bench/gate.mjs.",
+  "distribution": {
+    "chiSquare": 340.0426399999996,
+    "df": 358,
+    "samples": 50000
+  },
+  "proximity": {
+    "close": 59,
+    "pairs": 1000
+  },
+  "stability": {
+    "checks": 6578,
+    "corpusSize": 598,
+    "optionCases": 11,
+    "determinismMismatches": 0,
+    "cssIdentityMismatches": 0,
+    "rgbDomainViolations": 0
+  },
+  "gamut": {
+    "samples": 1000000,
+    "outOfGamut": 0
+  },
+  "size": {
+    "coreGzipBytes": 6815,
+    "coreGzipKib": 6.66,
+    "paletteGzipBytes": 832,
+    "paletteGzipKib": 0.81
+  },
+  "calibration": {
+    "status": "provisional",
+    "note": "Provisional constants. Frozen at the v1 release candidate.",
+    "kHk": 0.32,
+    "hkPeakHue": 110,
+    "darkLightnessShift": 0.1,
+    "darkLightnessCap": 0.86,
+    "darkChromaScale": 0.72,
+    "distinctThreshold": 0.09,
+    "hkActive": true,
+    "darkVariantLiftsLightness": true,
+    "darkVariantMutesChroma": true
+  },
+  "examples": {
+    "default": {
+      "input": "Alice Park",
+      "options": {},
+      "hex": "#a97849",
+      "rgb": [
+        169,
+        120,
+        73
+      ],
+      "oklch": {
+        "l": 0.6119978303615586,
+        "c": 0.08810164567406036,
+        "h": 63.73305395507474
+      },
+      "css": "oklch(0.611998 0.088102 63.733)",
+      "foreground": "#000000"
+    },
+    "vibrantSeeded": {
+      "input": "user@acme.io",
+      "options": {
+        "mood": "vibrant",
+        "seed": 12648430
+      },
+      "hex": "#6a60db",
+      "rgb": [
+        106,
+        96,
+        219
+      ],
+      "oklch": {
+        "l": 0.5639147982491336,
+        "c": 0.1816761815176229,
+        "h": 282.5457120705956
+      },
+      "css": "oklch(0.563915 0.181676 282.546)",
+      "foreground": "#000000"
+    },
+    "pastel": {
+      "input": "design",
+      "options": {
+        "mood": "pastel"
+      },
+      "hex": "#e1bbc6",
+      "rgb": [
+        225,
+        187,
+        198
+      ],
+      "oklch": {
+        "l": 0.8282736169064098,
+        "c": 0.0457662336620758,
+        "h": 358.8612708486747
+      },
+      "css": "oklch(0.828274 0.045766 358.861)",
+      "foreground": "#000000"
+    },
+    "palette": [
+      "#ca767f",
+      "#6eba81",
+      "#7d75b7",
+      "#c3894b",
+      "#2ab6c1",
+      "#a96993",
+      "#91a152",
+      "#6e9fe2"
+    ],
+    "distinct": {
+      "data": "#997dbd",
+      "design": "#7da26d",
+      "frontend": "#c8a447",
+      "infra": "#3c94b6"
+    }
+  }
+}

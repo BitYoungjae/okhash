@@ -1,0 +1,132 @@
+{
+  "name": "okhash",
+  "version": "0.0.0",
+  "description": "Deterministic string-to-color generator built on OKLCH.",
+  "keywords": [
+    "color",
+    "deterministic",
+    "hash",
+    "oklab",
+    "oklch",
+    "palette",
+    "string-to-color",
+    "typescript"
+  ],
+  "homepage": "https://github.com/BitYoungjae/okhash#readme",
+  "bugs": {
+    "url": "https://github.com/BitYoungjae/okhash/issues"
+  },
+  "license": "MIT",
+  "author": "BitYoungjae <bityoungjae@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BitYoungjae/okhash.git"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.map",
+    "docs/REFERENCE.md",
+    "README.md",
+    "MIGRATION.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./palette": {
+      "types": "./dist/palette/index.d.mts",
+      "import": "./dist/palette/index.mjs",
+      "require": "./dist/palette/index.mjs",
+      "default": "./dist/palette/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "vitest run",
+    "test:golden": "vitest run test/golden.test.ts",
+    "test:property": "vitest run test/property.test.ts",
+    "test:distribution": "vitest run test/distribution.test.ts",
+    "test:exports": "npm run build && node test/imports.mjs && tsc --noEmit --project test/tsconfig.exports.json && tsc --noEmit --project test/tsconfig.exports.bundler.json",
+    "test:package": "npm run test:exports && publint run --strict && attw --pack . --profile esm-only",
+    "test:runtime": "npm run build && node tools/runtime-smoke.mjs && node tools/workerd-smoke.mjs",
+    "test:browser": "npm run build && playwright test",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test",
+    "golden:update": "npm run build && node tools/update-golden.mjs",
+    "size": "npm run build && node tools/size-gate.mjs && size-limit",
+    "bench": "node bench/smoke.mjs",
+    "bench:gate": "npm run build && node bench/gate.mjs",
+    "test:gates": "npm run test && npm run test:package && npm run test:runtime && npm run test:browser && npm run size && npm run bench:gate",
+    "demo:data": "npm run build && node tools/measure-metrics.mjs demo/src/data/metrics.json && node tools/measure-bench.mjs demo/src/data/bench.json",
+    "demo:dev": "vite --config demo/vite.config.ts",
+    "demo:build": "npm run build && vite build --config demo/vite.config.ts",
+    "demo:preview": "vite preview --config demo/vite.config.ts",
+    "demo:typecheck": "tsc --noEmit --project demo/tsconfig.json"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.3",
+    "@playwright/test": "^1.60.0",
+    "@size-limit/file": "^12.1.0",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.2",
+    "fast-check": "^4.8.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0",
+    "oxlint-tsgolint": "^0.23.0",
+    "publint": "^0.3.21",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "size-limit": "^12.1.0",
+    "tinybench": "^6.0.2",
+    "tsdown": "^0.22.2",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.8",
+    "workerd": "^1.20260611.1"
+  },
+  "lint-staged": {
+    "*": "oxfmt --no-error-on-unmatched-pattern",
+    "*.{cjs,cts,js,jsx,mjs,mts,ts,tsx}": "oxlint --fix --no-error-on-unmatched-pattern"
+  },
+  "size-limit": [
+    {
+      "name": "core entry graph",
+      "path": [
+        "dist/index.mjs",
+        "dist/spec-*.mjs"
+      ],
+      "limit": "7.5 KB"
+    },
+    {
+      "name": "palette entry file",
+      "path": "dist/palette/index.mjs",
+      "limit": "1.5 KB"
+    }
+  ],
+  "engines": {
+    "node": ">=22.22.1"
+  },
+  "packageManager": "npm@11.16.0"
+}

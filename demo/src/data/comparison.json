@@ -1,0 +1,44 @@
+{
+  "source": "Local benchmark of published packages installed from npm.",
+  "measuredOn": "2026-06-12",
+  "node": "24.16.0",
+  "note": "Sizes are bundled, minified, gzipped; okhash's is the gzip of its own shipped tsdown build (tools/measure-metrics.mjs), the same number shown elsewhere on the page. Latency is each package's direct hex path timed over 64 rotating uncached inputs with tinybench — the same method as this repository's headline latency gate (tools/measure-bench.mjs), so okhash's figure here equals the headline number. All packages timed in one process on the Node version below.",
+  "packages": [
+    {
+      "name": "uniqolor",
+      "version": "1.1.1",
+      "space": "HSL",
+      "gzipKib": 2.12,
+      "deps": 0,
+      "directNs": 417.2,
+      "note": "small, dependency-free"
+    },
+    {
+      "name": "color-hash",
+      "version": "2.0.2",
+      "space": "HSL",
+      "gzipKib": 3.27,
+      "deps": 0,
+      "directNs": 190.9,
+      "note": "BKDR hash; SHA-256 default near 4,919 ns"
+    },
+    {
+      "name": "okhash",
+      "version": "local",
+      "space": "OKLCH",
+      "gzipKib": 6.66,
+      "deps": 0,
+      "directNs": 135.9,
+      "note": "perceptual, gamut-safe, H-K corrected"
+    },
+    {
+      "name": "string-to-color",
+      "version": "2.2.2",
+      "space": "HSL",
+      "gzipKib": 8.51,
+      "deps": 6,
+      "directNs": 12931.8,
+      "note": "color-name-aware mixing; not a one-to-one match"
+    }
+  ]
+}
