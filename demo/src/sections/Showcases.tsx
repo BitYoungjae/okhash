@@ -106,9 +106,15 @@ export function MoodGallery() {
                       display: "flex",
                       alignItems: "center",
                       paddingLeft: 11,
+                      paddingRight: 11,
                       fontFamily: "var(--mono)",
                       fontSize: 11.5,
+                      minWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
+                    title={n}
                   >
                     {n}
                   </div>

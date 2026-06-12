@@ -1,13 +1,13 @@
 import { type ReactNode, useMemo, useRef } from "react";
 import { createColorHash, type ColorHashFn, type OkhashOptions } from "okhash";
 
-// A pool of fictional names across scripts. Mixed on purpose: it doubles as a
-// stress test for hashing arbitrary Unicode.
+// A pool of fictional names across scripts/localizations. Mixed on purpose: it
+// doubles as a stress test for hashing arbitrary Unicode.
 export const NAMES = [
-  "Eleanor Finch", "Oliver Hart", "Nora Bishop", "Julian Reeve", "Cassie Wren", "Theo Marsh",
-  "김도윤", "이서연", "박지훈", "정하늘", "한소희", "윤재민", "서가은", "주영재",
-  "星野遥", "藤原拓海", "黒田美咲", "七海みなと", "桐谷直樹", "白瀬かなで",
-  "林婉清", "江晨", "苏沐然", "顾沉舟", "沈青禾", "陈墨白",
+  "Eleanor Finch", "Oliver Hart", "Kira", "Artoria", "Cassie Wren", "Theo Marsh",
+  "김도윤", "이서연", "박지훈", "정하늘", "키라", "アルトリア", "서가은", "주영재",
+  "青葉ミナト", "花咲ユメ", "キラ", "아르토리아", "黒沢ミサキ", "白瀬カナデ",
+  "林婉清", "江晨", "基拉", "阿尔托莉雅", "苏沐然", "BitYoungjae",
   "Mateo Solís", "Lucía Vega", "Diego Herrera", "Valeria Cruz", "Santiago Rey",
   "Camille Laurent", "Théo Moreau", "Lena Brandt", "Layla Karim", "Omar Najjar",
   "Mikhail Volkov", "Anya Sokolova", "Giulia Conti", "Rafael Costa", "Linh Nguyễn",
