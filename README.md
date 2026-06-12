@@ -33,6 +33,31 @@ npm i okhash
 Requires Node 22.22.1 or newer. The package ships a single ESM build; `require()`
 works on Node versions that support `require(esm)`.
 
+## Browser CDN
+
+For pages without a build step, import okhash from an ESM CDN:
+
+```html
+<script type="module">
+  import { hashColor } from "https://esm.sh/okhash@1";
+
+  const color = hashColor("Alice");
+  document.body.style.setProperty("--accent", color.hex());
+</script>
+```
+
+The palette subpath works the same way:
+
+```html
+<script type="module">
+  import { paletteFrom } from "https://esm.sh/okhash@1/palette";
+
+  const colors = paletteFrom("acme-corp", 5).map((color) => color.hex());
+</script>
+```
+
+Use an exact version such as `okhash@1.0.4` when you need a fully pinned page.
+
 ## Quick start
 
 ```ts
