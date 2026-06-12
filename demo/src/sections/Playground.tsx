@@ -1,7 +1,14 @@
 import { useState } from "react";
 import type { Oklch } from "okhash";
 
-import { copy, hasherOptions, IconCopy, useHasher, type SharedState } from "../components/primitives";
+import {
+  copy,
+  demoForeground,
+  hasherOptions,
+  IconCopy,
+  useHasher,
+  type SharedState,
+} from "../components/primitives";
 import { oklchToHex } from "../lib/colorMath";
 
 function Bar({
@@ -111,7 +118,7 @@ export function Playground({ shared }: { shared: SharedState }) {
   const rgb = color.rgb();
   const o = color.oklch();
   const css = color.css();
-  const fg = color.foreground();
+  const fg = demoForeground(color);
 
   const ReadRow = ({ k, v, copyVal }: { k: string; v: string; copyVal?: string }) => (
     <button
@@ -235,7 +242,7 @@ export function Playground({ shared }: { shared: SharedState }) {
             copyVal={css}
           />
           <ReadRow k="css()" v={css} copyVal={css} />
-          <ReadRow k="foreground()" v={fg} copyVal={fg} />
+          <ReadRow k='foreground({ preset: "natural" })' v={fg} copyVal={fg} />
         </div>
         <div className="card" style={{ padding: "18px 20px" }}>
           <OklchViz o={o} hex={hex} />

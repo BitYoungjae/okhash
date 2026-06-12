@@ -2,7 +2,7 @@
   "source": "Local benchmark of published packages installed from npm.",
   "measuredOn": "2026-06-12",
   "node": "24.16.0",
-  "note": "Sizes are bundled, minified, gzipped; okhash's is the gzip of its own shipped tsdown build (tools/measure-metrics.mjs), the same number shown elsewhere on the page. Latency is each package's direct hex path timed over 64 rotating uncached inputs with tinybench — the same method as this repository's headline latency gate (tools/measure-bench.mjs), so okhash's figure here equals the headline number. All packages timed in one process on the Node version below.",
+  "note": "Sizes are bundled, minified, gzipped; okhash's is the gzip of its shipped core entry graph (tools/measure-metrics.mjs), the same number shown elsewhere on the page. Latency is each package's direct hex path timed over 64 rotating uncached inputs with tinybench, the same method as this repository's headline latency gate (tools/measure-bench.mjs), so okhash's figure here equals the headline number. All packages timed in one process on the Node version below.",
   "packages": [
     {
       "name": "uniqolor",
@@ -26,7 +26,7 @@
       "name": "okhash",
       "version": "local",
       "space": "OKLCH",
-      "gzipKib": 6.66,
+      "gzipKib": 7.25,
       "deps": 0,
       "directNs": 135.9,
       "note": "perceptual, gamut-safe, H-K corrected"

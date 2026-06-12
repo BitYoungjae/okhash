@@ -1,5 +1,11 @@
 import { type ReactNode, useMemo, useRef } from "react";
-import { createColorHash, type ColorHashFn, type OkhashOptions } from "okhash";
+import {
+  createColorHash,
+  type Color,
+  type ColorHashFn,
+  type ForegroundOptions,
+  type OkhashOptions,
+} from "okhash";
 
 // A pool of fictional names across scripts/localizations. Mixed on purpose: it
 // doubles as a stress test for hashing arbitrary Unicode.
@@ -22,6 +28,14 @@ export const MOOD_LABELS: Record<string, string> = {
   earth: "warm-weighted hue",
   neon: "max chroma · H-K",
 };
+
+export const DEMO_FOREGROUND_OPTIONS = {
+  preset: "natural",
+} satisfies ForegroundOptions;
+
+export function demoForeground(color: Color): string {
+  return color.foreground(DEMO_FOREGROUND_OPTIONS);
+}
 
 export function randName(): string {
   return NAMES[Math.floor(Math.random() * NAMES.length)];
@@ -206,7 +220,7 @@ export function Avatar({
 }) {
   const color = hasher(name);
   const bg = color.hex();
-  const fg = color.foreground();
+  const fg = demoForeground(color);
   return (
     <div
       title={title ?? `${name}  ${bg}`}
@@ -237,7 +251,7 @@ export function Tag({ name, hasher }: { name: string; hasher: ColorHashFn }) {
     <span
       style={{
         background: color.hex(),
-        color: color.foreground(),
+        color: demoForeground(color),
         fontFamily: "var(--mono)",
         fontSize: 13,
         padding: "5px 13px",

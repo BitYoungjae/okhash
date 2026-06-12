@@ -111,7 +111,7 @@ export function DarkVariant() {
     <div className="dual" style={{ display: "flex", gap: 16 }}>
       <Column label="surface: light" hasher={light} bg="#fbfaf6" onDark={false} />
       <Column
-        label="surface: dark — same identity, lifted and muted"
+        label="surface: dark · same identity, lifted and muted"
         hasher={dark}
         bg="#16171b"
         onDark
@@ -163,7 +163,7 @@ export function CvdDemo() {
         <p className="note">
           {safe
             ? "cvdSafe locks hue to the blue↔orange axis and widens lightness, so swatches stay distinct under every simulation."
-            : "default mood — pick a simulation and watch some greens and reds drift together. Then turn cvdSafe on."}
+            : "default mood: pick a simulation and watch some greens and reds drift together, then turn cvdSafe on."}
         </p>
       </div>
     </div>

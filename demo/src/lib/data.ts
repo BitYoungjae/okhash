@@ -73,6 +73,6 @@ export const facts = {
   chiSquare: Math.round(metrics.distribution.chiSquare).toString(),
   chiSamples: formatThousands(metrics.distribution.samples),
   gamut: `${metrics.gamut.outOfGamut} / ${formatThousands(metrics.gamut.samples)}`,
-  coreSize: `${metrics.size.coreGzipKib} KB`,
-  paletteSize: `${metrics.size.paletteGzipKib} KB`,
+  coreSize: `${metrics.size.coreGzipKib} KiB`,
+  paletteSize: `${metrics.size.paletteGzipKib} KiB`,
 };

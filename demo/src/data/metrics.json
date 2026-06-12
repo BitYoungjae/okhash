@@ -23,9 +23,9 @@
     "outOfGamut": 0
   },
   "size": {
-    "coreGzipBytes": 6815,
-    "coreGzipKib": 6.66,
-    "paletteGzipBytes": 832,
+    "coreGzipBytes": 7420,
+    "coreGzipKib": 7.25,
+    "paletteGzipBytes": 831,
     "paletteGzipKib": 0.81
   },
   "calibration": {

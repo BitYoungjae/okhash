@@ -4,6 +4,7 @@ import { createColorHash } from "okhash";
 import {
   Chip,
   copy,
+  demoForeground,
   IconArrowDown,
   IconCopy,
   initials,
@@ -74,7 +75,7 @@ function Marquee() {
                 height: 24,
                 borderRadius: "50%",
                 background: c.hex(),
-                color: c.foreground(),
+                color: demoForeground(c),
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -257,7 +258,7 @@ export default function App() {
         id="playground"
         num="01"
         title="The playground"
-        sub="Type anything. Every keystroke is hashed and mapped to a color in real time: no network, no randomness, fully deterministic."
+        sub="Type anything. okhash maps each keystroke to a color as you type: no network, no randomness, the same result on every run."
       >
         <ControlBar shared={shared} setShared={setShared} />
         <Playground shared={shared} />
@@ -267,7 +268,7 @@ export default function App() {
         id="harmony"
         num="02"
         title="Built for sets, not single colors"
-        sub="The main use case is many colors side by side: avatars, tags, a legend. Uniform-chroma moods keep the whole set perceptually even; relative-chroma moods trade some evenness for extra vividness."
+        sub="The main use case is many colors side by side: avatars, tags, content cards, a legend. Uniform-chroma moods keep the whole set perceptually even; relative-chroma moods trade some evenness for extra vividness."
       >
         <SetHarmony shared={shared} />
       </Section>
@@ -283,7 +284,7 @@ export default function App() {
       <Section
         num="04"
         title="Palettes from a seed"
-        sub="Need N harmonious colors instead of a per-string map? The golden angle spaces hues evenly at any count."
+        sub="For N harmonious colors instead of a per-string map, the golden angle spaces hues evenly at any count."
       >
         <PaletteLab />
       </Section>
@@ -301,7 +302,7 @@ export default function App() {
         id="science"
         num="06"
         title="Perceptual foreground"
-        sub="Black or white text? okhash decides in OKLab lightness space, closer to how the eye reads contrast than raw WCAG 2 ratios."
+        sub="The default foreground compares black and white in OKLab lightness space; the natural preset adds WCAG boundary colors for softer readable UI text."
       >
         <ForegroundDemo />
       </Section>
