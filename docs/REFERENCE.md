@@ -138,7 +138,7 @@ At equal OKLCH lightness, saturated blues and violets look brighter than they
 measure. okhash lowers the displayed lightness to compensate:
 
 ```text
-w(H) = 0.5 * (1 - cos((H - 110deg) * pi / 180))   // 0 near yellow, 1 near blue-violet
+w(H) = 0.5 * (1 - cos((H - 110deg) * pi / 180))   // 0 near yellow, max near blue-violet
 Ld   = L - k_HK * C * w(H)                          // k_HK = 0.32 (provisional)
 C    = min(C, Cmax(Ld, H))                          // reclamp to the lowered ceiling
 ```
@@ -148,7 +148,11 @@ fraction of colors. On the balanced range it touches about 0.04% of samples and
 trims each by under 1%. `w(H)` is a 256-entry lookup table. The correction is on by
 default for most moods and off via `hk: false`.
 
-**Provisional:** `k_HK = 0.32` and the `110deg` peak.
+`110deg` is the zero-weight hue for this approximation; the maximum correction
+falls 180deg away, near `290deg`. This is a small, output-stable H-K compensation
+heuristic, not a full color appearance model.
+
+**Provisional:** `k_HK = 0.32` and the `110deg` zero-weight hue.
 
 ## Surface variants
 
@@ -258,7 +262,7 @@ Firefox, and WebKit, to catch any divergence.
 | gamma LUT         | 4096+1 entries                                       | fixed       |
 | Csafe table       | 128 nodes, linear interpolation, conservative margin | fixed       |
 | Cmax              | Ottosson cusp approximation, margin `0.995`          | fixed       |
-| `k_HK` / `w(H)`   | `0.32` / `0.5(1 - cos(H - 110deg))`                  | provisional |
+| `k_HK` / `w(H)`   | `0.32` / `0.5(1 - cos(H - 110deg))`, max at `290deg` | provisional |
 | dark variant      | `L + 0.10` (cap `0.86`), `C * 0.72`                  | provisional |
 | golden angle      | `137.50776405003785deg`                              | fixed       |
 | ΔE_OK threshold   | `0.09` (distinctAssign default)                      | provisional |

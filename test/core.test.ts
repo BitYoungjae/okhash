@@ -218,6 +218,17 @@ describe("core OKH1 vertical slice", () => {
     expect(maxChromaForLightnessHue(0.65, 40)).toBeGreaterThan(maxChromaForLightnessHue(0.65, 200));
   });
 
+  it("anchors the H-K phase at a yellowish zero and blue-violet maximum", () => {
+    const lightness = 0.7;
+    const chroma = 0.1;
+    const nearYellowZero = applyHelmholtzKohlrausch(lightness, chroma, 110);
+    const blueVioletMax = applyHelmholtzKohlrausch(lightness, chroma, 290);
+
+    expect(lightness - nearYellowZero.lightness).toBeLessThan(0.0001);
+    expect(lightness - blueVioletMax.lightness).toBeGreaterThan(0.031);
+    expect(lightness - blueVioletMax.lightness).toBeLessThanOrEqual(0.032);
+  });
+
   it("supports every mood while preserving canonical direct path identity", () => {
     const expectedByMood = {
       balanced: "#a293cb",

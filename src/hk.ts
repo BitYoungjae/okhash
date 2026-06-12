@@ -1,12 +1,13 @@
 import { maxChromaForLightnessHue, safeChromaForLightness } from "./oklab.js";
 
 const HK_STRENGTH = 0.32;
+const HK_ZERO_HUE = 110;
 const HK_TABLE_SIZE = 256;
 const HK_WEIGHT_LUT = new Float64Array(HK_TABLE_SIZE);
 
 for (let index = 0; index < HK_TABLE_SIZE; index += 1) {
   const hue = (index / HK_TABLE_SIZE) * 360;
-  HK_WEIGHT_LUT[index] = 0.5 * (1 - Math.cos(((hue - 110) * Math.PI) / 180));
+  HK_WEIGHT_LUT[index] = 0.5 * (1 - Math.cos(((hue - HK_ZERO_HUE) * Math.PI) / 180));
 }
 
 export interface HkResult {

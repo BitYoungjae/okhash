@@ -28,7 +28,8 @@ export interface Metrics {
     status: string;
     note: string;
     kHk: number;
-    hkPeakHue: number;
+    hkZeroHue: number;
+    hkMaxHue: number;
     darkLightnessShift: number;
     darkLightnessCap: number;
     darkChromaScale: number;

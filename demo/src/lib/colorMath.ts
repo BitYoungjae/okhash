@@ -9,7 +9,7 @@
 //   - an OKLCH-to-sRGB preview for the hue wheel and the H-K calibration sandbox.
 //
 // The OKLab/OKLCH constants and formulas mirror the package (see
-// docs/REFERENCE.md). At the shipped H-K strength (k = 0.32, peak 110deg) the
+// docs/REFERENCE.md). At the shipped H-K strength (k = 0.32, zero hue 110deg) the
 // preview matches real package output; tools/measure-metrics.mjs checks that.
 
 export type Rgb = readonly [number, number, number];
@@ -105,9 +105,9 @@ export function foregroundFor(background: Rgb, metric: ForegroundMetric): string
 }
 
 // Helmholtz-Kohlrausch weight and lightness shift, parameterized so the
-// calibration sandbox can explore the provisional k and peak.
-export function hkWeight(hue: number, peak: number): number {
-  return 0.5 * (1 - Math.cos((hue - peak) * DEG_TO_RAD));
+// calibration sandbox can explore the provisional k and zero-weight hue.
+export function hkWeight(hue: number, zeroHue: number): number {
+  return 0.5 * (1 - Math.cos((hue - zeroHue) * DEG_TO_RAD));
 }
 
 export function hkDisplayLightness(
@@ -115,9 +115,9 @@ export function hkDisplayLightness(
   chroma: number,
   hue: number,
   strength: number,
-  peak: number,
+  zeroHue: number,
 ): number {
-  const shifted = lightness - strength * chroma * hkWeight(hue, peak);
+  const shifted = lightness - strength * chroma * hkWeight(hue, zeroHue);
   return shifted <= 0 ? 0 : shifted >= 1 ? 1 : shifted;
 }
 

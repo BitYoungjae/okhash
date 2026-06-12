@@ -172,35 +172,52 @@ export function CvdDemo() {
 
 export function HkDemo() {
   const names = ["Indigo", "Violet", "Cobalt", "Plum", "Azure", "Iris", "Slate", "Mauve", "Denim", "Lilac"];
-  const Row = ({ hk, label }: { hk: boolean; label: string }) => {
-    const hasher = useMemo(() => createColorHash({ hk }), [hk]);
-    return (
+  const raw = useMemo(() => createColorHash({ hk: false }), []);
+  const corrected = useMemo(() => createColorHash({ hk: true }), []);
+
+  return (
+    <div className="card" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 22 }}>
       <div>
         <div className="label" style={{ marginBottom: 10 }}>
-          {label}
+          split swatches: left raw OKLCH L, right HK-corrected display L.
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(64px, 1fr))", gap: 8 }}>
           {names.map((n) => {
-            const c = hasher(n);
+            const before = raw(n);
+            const after = corrected(n);
+            const beforeHex = before.hex();
+            const afterHex = after.hex();
             return (
               <div
                 key={n}
-                title={`${n} ${c.hex()}`}
-                style={{ flex: 1, height: 58, borderRadius: 8, background: c.hex() }}
-              />
+                title={`${n} raw ${beforeHex} · hk ${afterHex}`}
+                style={{
+                  height: 72,
+                  borderRadius: 8,
+                  background: `linear-gradient(90deg, ${beforeHex} 0 50%, ${afterHex} 50% 100%)`,
+                  boxShadow: "inset 1px 0 rgb(255 255 255 / 0.16), inset -1px 0 rgb(0 0 0 / 0.18)",
+                  position: "relative",
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    insetBlock: 0,
+                    left: "50%",
+                    width: 1,
+                    background: "rgb(255 255 255 / 0.42)",
+                    boxShadow: "1px 0 rgb(0 0 0 / 0.18)",
+                  }}
+                />
+              </div>
             );
           })}
         </div>
       </div>
-    );
-  };
-  return (
-    <div className="card" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 22 }}>
-      <Row hk={false} label="hk: false — raw OKLCH L. High-chroma blues read as too bright." />
-      <Row hk label="hk: true (default) — display L corrected so perceived brightness evens out." />
       <p className="note">
         Lᴅ = Lₙ − 0.32 · C · ½(1 − cos(H − 110°)) darkens blue and violet where the eye over-reads
-        them.
+        them. 110° is the zero point; the strongest correction is near 290°.
       </p>
     </div>
   );
