@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 
 import { describe, expect, it } from "vitest";
 
-import { chooseForeground } from "../src/contrast.js";
+import { chooseForeground, wcag2Contrast } from "../src/contrast.js";
 import { cyrb53pair } from "../src/hash.js";
 import { applyHelmholtzKohlrausch } from "../src/hk.js";
 import {
@@ -399,6 +399,50 @@ describe("core OKH1 vertical slice", () => {
       }),
     ).toBe("#eeeeee");
   });
+
+  it("selects natural foreground colors near a readable target contrast", () => {
+    const background = [0xff, 0xff, 0xff] as const;
+    const candidates = ["#111111", "#444444", "#666666"] as const;
+
+    expect(chooseForeground(background, { candidates, metric: "wcag2" })).toBe("#111111");
+    expect(chooseForeground(background, { candidates, preset: "natural" })).toBe("#666666");
+    expect(
+      chooseForeground(background, { candidates, preset: "natural", targetContrast: 10 }),
+    ).toBe("#444444");
+
+    const generated = chooseForeground(background, { preset: "natural" });
+    expect(generated).toMatch(/^#[\da-f]{6}$/);
+    expect(generated).not.toBe("#000000");
+    expect(wcag2Contrast(background, parseTestHexColor(generated))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("keeps generated natural foreground colors above their WCAG floor", () => {
+    for (let channel = 0; channel <= 255; channel += 1) {
+      const background = [channel, channel, channel] as const;
+      const foreground = chooseForeground(background, { preset: "natural" });
+
+      expect(wcag2Contrast(background, parseTestHexColor(foreground))).toBeGreaterThanOrEqual(4.5);
+    }
+
+    const hasher = createColorHash();
+    for (let index = 0; index < 5000; index += 1) {
+      const color = hasher(`sample-${index}`);
+      const foreground = color.foreground({ preset: "natural" });
+
+      expect(wcag2Contrast(color.rgb(), parseTestHexColor(foreground))).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it("keeps tinted natural foreground colors above their WCAG floor", () => {
+    const hasher = createColorHash({ mood: "vibrant" });
+
+    for (let index = 0; index < 1000; index += 1) {
+      const color = hasher(`sample-${index}`);
+      const foreground = color.foreground({ preset: "natural", tone: "tinted" });
+
+      expect(wcag2Contrast(color.rgb(), parseTestHexColor(foreground))).toBeGreaterThanOrEqual(4.5);
+    }
+  });
 });
 
 function formatExpectedCss(oklch: Oklch): string {
@@ -413,6 +457,20 @@ function parseCssOklch(css: string): Oklch {
   }
 
   return { l: Number(match[1]), c: Number(match[2]), h: Number(match[3]) };
+}
+
+function parseTestHexColor(input: string): Rgb {
+  const match = /^#([\da-f]{6})$/.exec(input);
+  if (match === null) {
+    throw new TypeError(`Invalid test hex color: ${input}`);
+  }
+
+  const hex = match[1];
+  return [
+    Number.parseInt(hex.slice(0, 2), 16),
+    Number.parseInt(hex.slice(2, 4), 16),
+    Number.parseInt(hex.slice(4, 6), 16),
+  ];
 }
 
 function isCvdHue(hue: number): boolean {

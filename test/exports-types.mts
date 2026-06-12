@@ -27,6 +27,8 @@ color.rgb();
 color.oklch();
 color.css();
 color.foreground({ metric: "auto" });
+color.foreground({ preset: "natural", intent: "body", level: "AA" });
+color.foreground({ preset: "natural", targetContrast: 7, tone: "tinted" });
 color.variant("dark");
 paletteFrom("seed", 3, options);
 distinctAssign(["Alice", "Bob"], distinctOptions);

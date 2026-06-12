@@ -21,7 +21,8 @@ hashColor.css("Alice"); // "oklch(0.696651 0.082351 296.496)"
 ```
 
 - ESM-only, zero runtime dependencies.
-- Core entry ~6.7 KB gzip, palette subpath ~0.8 KB gzip (measured, see [Verifying the numbers](#verifying-the-numbers)).
+- Core entry ~7.3 KiB gzip, palette entry file ~0.8 KiB gzip: small for a
+  perceptual color generator, measured in this repository.
 - Uses only ECMA-262, so output matches across Node, Deno, Bun, workers, and browsers.
 
 ## Install
@@ -74,6 +75,7 @@ const colorize = createColorHash({ mood: "vibrant", seed: 0xc0ffee });
 const color = colorize("user@acme.io");
 color.hex(); // "#6a60db"
 color.foreground(); // "#000000" or "#ffffff", whichever reads better
+color.foreground({ preset: "natural" }); // softer readable text color
 color.variant("dark"); // same identity, tuned for a dark surface
 ```
 
@@ -218,14 +220,23 @@ Picks a readable text color for the background.
 ```ts
 const c = hashColor("Alice Park");
 c.foreground(); // "#000000" — default metric, perceptual lightness difference
+c.foreground({ preset: "natural" }); // readable but less stark than pure black/white
 c.foreground({ metric: "wcag2" }); // WCAG 2 contrast ratio, for compliance contexts
 c.foreground({ candidates: ["#1a1a1a", "#f5f5f5"] }); // your own candidate set
 c.foreground({ rank: myApcaRanker }); // plug in any contrast function
 ```
 
 The default `"auto"` metric maximizes the OKLab lightness difference between
-background and candidate. okhash does not bundle APCA; the `rank` hook lets you
-connect `apca-w3` or any other contrast function if you need it.
+background and candidate. `preset: "natural"` generates a neutral candidate set,
+adds dynamically solved WCAG boundary candidates, keeps a contrast floor (`4.5:1`
+for body text by default), then picks the candidate closest to a comfortable
+target contrast instead of always picking the maximum. Use `intent`, `level`,
+`targetContrast`, and `tone: "tinted"` to tune that behavior. If you pass
+`candidates`, okhash ranks only those colors. If a requested floor cannot be met
+in sRGB or by your custom candidate list, the highest available contrast wins.
+
+okhash does not bundle APCA; the `rank` hook lets you connect `apca-w3` or any
+other contrast function if you need it.
 
 #### `variant(surface)`
 

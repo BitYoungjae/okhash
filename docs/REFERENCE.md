@@ -178,6 +178,24 @@ candidates `["#000000", "#ffffff"]`.
   black near `#646464`.
 - `metric: "wcag2"`: maximize the WCAG 2 contrast ratio. With black and white
   candidates, text flips near `#767676`.
+- `preset: "natural"`: use a generated off-black/off-white candidate set plus
+  dynamically solved WCAG boundary candidates, then choose the passing candidate
+  closest to a comfortable target contrast. Defaults are `intent: "body"`,
+  `level: "AA"`, and target contrast `5.5`. If the target is impossible for the
+  background, the highest available passing contrast wins.
+- `intent: "body" | "large" | "icon" | "muted"`: sets the default contrast floor
+  for the natural preset. Body and muted text use `4.5:1` at AA and `7:1` at
+  AAA; large text and icon/non-text use the relaxed floor.
+- `level: "AA" | "AAA" | number`: WCAG floor for the natural preset, or a custom
+  positive contrast floor. If the requested floor is impossible for the
+  background in sRGB, the highest available contrast wins.
+- `targetContrast: number`: natural preset target. Passing candidates closest to
+  this value win; candidates below the floor lose to any passing candidate.
+- `tone: "neutral" | "tinted"`: natural preset candidate tone. Neutral is
+  achromatic; tinted uses a very low-chroma version of the background hue.
+- `candidates: string[]`: custom candidate set. With custom candidates, natural
+  ranking still prefers passing candidates near the target, but okhash does not
+  add fallback colors outside your list.
 - `rank: (bg, candidate) => number`: your own comparator; the highest score wins.
   This is where you wire in APCA via `apca-w3` if you need it.
 

@@ -38,6 +38,11 @@ export interface ForegroundOptions {
   candidates?: readonly string[];
   metric?: "auto" | "wcag2";
   rank?: (background: Rgb, candidate: Rgb) => number;
+  preset?: "max" | "natural";
+  intent?: "body" | "large" | "icon" | "muted";
+  level?: "AA" | "AAA" | number;
+  targetContrast?: number;
+  tone?: "neutral" | "tinted";
 }
 
 export interface Color {
