@@ -214,7 +214,7 @@ function Hero() {
     [facts.latency, "per color"],
     [`χ² ${facts.chiSquare}`, "even hue spread"],
     [facts.gamut, "out of gamut"],
-    [facts.coreSize, "gzip core, zero deps"],
+    [facts.browserBundleSize, "browser gzip, zero deps"],
   ];
   return (
     <header style={{ paddingTop: 78, paddingBottom: 32 }}>
