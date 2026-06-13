@@ -133,6 +133,28 @@ export const IconCopy = (p: IconProps) => (
     <path d="M2.5 10v-5.5a2 2 0 0 1 2-2H10" />
   </Icon>
 );
+export const IconGitHub = ({ size = 15, style }: IconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="currentColor"
+    aria-hidden="true"
+    style={{ flex: "none", display: "block", ...style }}
+  >
+    <path d="M8 .2a8 8 0 0 0-2.53 15.59c.4.08.55-.17.55-.38v-1.5c-2.24.49-2.72-.95-2.72-.95-.36-.93-.9-1.18-.9-1.18-.74-.5.06-.49.06-.49.81.06 1.24.84 1.24.84.73 1.24 1.9.88 2.36.67.08-.52.29-.88.52-1.08-1.79-.2-3.67-.9-3.67-3.98 0-.88.31-1.6.84-2.16-.08-.21-.36-1.03.08-2.14 0 0 .68-.22 2.2.82A7.63 7.63 0 0 1 8 4a7.6 7.6 0 0 1 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.14.52.56.84 1.28.84 2.16 0 3.09-1.88 3.77-3.67 3.97.29.25.55.74.55 1.49v2.2c0 .21.14.46.55.38A8 8 0 0 0 8 .2Z" />
+  </svg>
+);
+export const IconMenu = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M3 5h10M3 11h10" />
+  </Icon>
+);
+export const IconX = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="m4.5 4.5 7 7M11.5 4.5l-7 7" />
+  </Icon>
+);
 export const IconRefresh = (p: IconProps) => (
   <Icon {...p}>
     <path d="M14 8a6 6 0 1 1-6-6c1.7 0 3.3.7 4.5 1.8L14 5.3" />

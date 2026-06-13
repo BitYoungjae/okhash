@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createColorHash } from "okhash";
 
 import {
@@ -7,6 +7,9 @@ import {
   demoForeground,
   IconArrowDown,
   IconCopy,
+  IconGitHub,
+  IconMenu,
+  IconX,
   initials,
   sampleNames,
   Section,
@@ -21,28 +24,127 @@ import { ForegroundDemo, DarkVariant, CvdDemo, HkDemo } from "./sections/Science
 import { Calibration } from "./sections/Calibration";
 import { DxCode, Capabilities, ComparisonTable } from "./sections/Dx";
 
+const NAV_LINKS = [
+  { id: "playground", label: "playground" },
+  { id: "distribution", label: "distribution" },
+  { id: "science", label: "color science" },
+  { id: "api", label: "api" },
+];
+
 function Nav() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeId, setActiveId] = useState("");
+  const [progress, setProgress] = useState(0);
+  const navRef = useRef<HTMLDivElement>(null);
+  const closeMenu = () => setMenuOpen(false);
+
+  // Scroll-spy + reading progress: tie the nav to the section in view, and
+  // draw a precise progress line — fitting for a library about measurement.
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const scrollY = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, scrollY / max) : 0);
+      const probe = scrollY + 140;
+      let current = "";
+      for (const { id } of NAV_LINKS) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= probe) current = id;
+      }
+      if (max - scrollY < 4) current = NAV_LINKS[NAV_LINKS.length - 1].id;
+      setActiveId(current);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // Dismiss the mobile menu on Escape or a tap outside the bar.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointer);
+    };
+  }, [menuOpen]);
+
+  // Collapse the menu when the layout grows past the mobile breakpoint.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 681px)");
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setMenuOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const toTop = () => {
+    closeMenu();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div className="nav">
-      <div className="wrap" style={{ display: "flex", alignItems: "center", gap: 14, height: 56 }}>
-        <span className="mono" style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-.02em" }}>
+    <div className="nav" ref={navRef}>
+      <div className="wrap nav-inner">
+        <button type="button" className="mono nav-brand" onClick={toTop}>
           okhash
-        </span>
-        <div className="chiprow" style={{ marginLeft: "auto" }}>
-          <a className="chip" href="#playground">
-            playground
+        </button>
+        <div id="primary-navigation" className="chiprow nav-links" data-open={menuOpen}>
+          {NAV_LINKS.map(({ id, label }) => (
+            <a
+              key={id}
+              className="chip"
+              href={`#${id}`}
+              data-active={activeId === id}
+              onClick={closeMenu}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+        <div className="nav-actions">
+          <a
+            className="chip nav-icon-link"
+            href="https://github.com/BitYoungjae/okhash"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub repository"
+            title="GitHub repository"
+          >
+            <IconGitHub size={15} />
           </a>
-          <a className="chip" href="#distribution">
-            distribution
-          </a>
-          <a className="chip" href="#science">
-            color science
-          </a>
-          <a className="chip" href="#api">
-            api
-          </a>
+          <button
+            type="button"
+            className="chip nav-menu-button"
+            data-open={menuOpen}
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={menuOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? <IconX size={15} /> : <IconMenu size={15} />}
+          </button>
         </div>
       </div>
+      <div className="nav-progress" style={{ transform: `scaleX(${progress})` }} aria-hidden="true" />
     </div>
   );
 }
